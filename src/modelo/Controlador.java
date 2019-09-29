@@ -4,57 +4,35 @@ import java.nio.Buffer;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
+/**
+ * @author Made by Jaiver Andres Orozco && Luis Fernando Cruces
+ * Class with main method
+ */
 public class Controlador {
 
-	
-	
 	/**
-	 * Por este enlace se debe subir la solución en Java (debidamente documentada) al problema del buffer 
-	 * limitado. La solución debe emplear semáforos. Para hacer que el productor y el consumidor trabajen a
-	 *  velocidades diferentes, se puede poner a dormir al hilo respectivo por un período aleatorio de 
-	 *  tiempo. El número de posiciones del buffer debe poder especificarse como parámetro de entrada al 
-	 *  correr el programa. .La solución puede presentarse en equipos de dos personas (en tal caso, 
-	 *  solamente es necesario que uno de los dos integrantes del equipo suba el trabajo). 
-	 *  Los nombres de los dos integrantes deben aparecer como comentarios en el código.
 	 * 
+	 * @param args
 	 */
-	
-	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		//input number of buffer
 		Scanner input = new  Scanner(System.in);
 		System.out.println("Escriba el tamñano del buffer:");
 		int size = input.nextInt();
-		//Se instancia los semaforos requeridos
-		Semaphore mutex;
-		Semaphore empty;
-		Semaphore full;
-		//se instancia el buffer
-		BufferContoler buffer;
+	
+		//Init buffer with a specific size into to console
+		BufferContoler buffer= new BufferContoler(size);
 		
-		//Instanciar los consumidores
-		Consumidor com1;
-		Consumidor com2;
+		//Init the Semaphores
+		Semaphore mutex= new Semaphore(1,true);
+		Semaphore empty= new Semaphore(size);
+		Semaphore full= new Semaphore(0,true);	
 		
-		//Instanciar los productores
-		Productor pro1;
-		
-		//Inician los semaforos
-		mutex= new Semaphore(1,true);
-		empty= new Semaphore(size);
-		full= new Semaphore(0,true);
-		
-		
-		//Se inicializa el buffer
-		buffer= new BufferContoler(size);
-		
-		//Se inicializan los productores y consumidores
-		pro1= new Productor(buffer,mutex,empty,full);
-		com1= new Consumidor(buffer,mutex,empty,full);
-		com2= new Consumidor(buffer,mutex,empty,full);
-		
+		//Init Productor and Consumidor
+		Productor pro1= new Productor(buffer,mutex,empty,full);
+		Consumidor com1= new Consumidor(buffer,mutex,empty,full);
 		pro1.start();
 		com1.start();
-	
 	}
 }

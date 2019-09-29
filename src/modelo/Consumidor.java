@@ -22,12 +22,12 @@ public class Consumidor extends Thread {
 	private Semaphore empty; // hay espacia
 	
 	/**
-	 * Semaphore class that indicate if exists data in the buffer
+	 * Semaphore class that indicate if exist data in the buffer
 	 */
 	private Semaphore full; //hay datos
 
 	/**
-	 * 
+	 * Constructor method of Consumidor
 	 * @param buff
 	 * @param mutex
 	 * @param empty
@@ -41,21 +41,42 @@ public class Consumidor extends Thread {
 
 	}
 
+	
+	/**
+	 * Main method to run the thread
+	 */
 	public void run() {
 
 		while (true) {
 			try {
 				
+				//Acquires a permit blocking until one is available, or the thread is interrupted.
+				//View if there is a data to consume
 				full.acquire();
+				
+				//Acquires a permit blocking until one is available, or the thread is interrupted.
+				//Semaphore  for mutual exclusion,  acquires the lock to into critical section
 				mutex.acquire();
-				System.out.println("Esperando a consumir");
+				
+				
+				System.out.println("Esperando a consumir (CONSUMIDOR)");
+				//Extract or consume the resource in the buffer
 				buffer.extract();
-				System.out.println("Liberacion");
+				System.out.println("Liberación (CONSUMIDOR)");
+				
+				
+				//releases the lock
 				mutex.release();
+				
+				//Releases a permit, increasing the number of available permits by one
 				empty.release();
+				
+				// sleep the Consumidor to work in different time
+				sleep(1500);
 
 			} catch (Exception e) {
 				// TODO: handle exception
+				
 			}
 
 		}
