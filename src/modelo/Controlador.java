@@ -1,11 +1,11 @@
 package modelo;
 
 import java.nio.Buffer;
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
 public class Controlador {
 
-	
 	
 	
 	/**
@@ -22,7 +22,9 @@ public class Controlador {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		Scanner input = new  Scanner(System.in);
+		System.out.println("Escriba el tamñano del buffer:");
+		int size = input.nextInt();
 		//Se instancia los semaforos requeridos
 		Semaphore mutex;
 		Semaphore empty;
@@ -37,18 +39,14 @@ public class Controlador {
 		//Instanciar los productores
 		Productor pro1;
 		
-		//pedir por consola
-		int n=4;
-		
-		
 		//Inician los semaforos
 		mutex= new Semaphore(1,true);
-		empty= new Semaphore(n);
+		empty= new Semaphore(size);
 		full= new Semaphore(0,true);
 		
 		
 		//Se inicializa el buffer
-		buffer= new BufferContoler(n);
+		buffer= new BufferContoler(size);
 		
 		//Se inicializan los productores y consumidores
 		pro1= new Productor(buffer,mutex,empty,full);
@@ -58,14 +56,5 @@ public class Controlador {
 		pro1.start();
 		com1.start();
 	
-		
-		
-		
-		
-
 	}
-	
-		
-	
-
 }

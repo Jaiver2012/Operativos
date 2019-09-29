@@ -6,7 +6,14 @@ public class Productor extends Thread {
 
 	
 	private BufferContoler buffer;
+	
+	/**
+	 * Semaphore class used to avoid the Productor and Consumidor modify at the same time
+	 * the buffer
+	 */
 	private Semaphore mutex;
+	
+	
 	private Semaphore empty;
 	private Semaphore full;
 
@@ -22,16 +29,15 @@ public class Productor extends Thread {
 
 		while (true) {
 			try {
-				
 				empty.acquire();
 				mutex.acquire();
 				
 				System.out.println("Produciendo un recurso");
-				System.out.println("Produciendo: "+ buffer.fill());
+				buffer.fill();
 				mutex.release();
 				full.release();
-
 				System.out.println("Esperando a producir");
+
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
