@@ -64,6 +64,8 @@ public class Consumidor extends Thread {
 				buffer.extract();
 				System.out.println("Liberación (CONSUMIDOR)");
 				
+				// sleep the Consumidor to work in different time
+				sleep((long) ((Math.random())%1000));
 				
 				//releases the lock
 				mutex.release();
@@ -71,8 +73,6 @@ public class Consumidor extends Thread {
 				//Releases a permit, increasing the number of available permits by one
 				empty.release();
 				
-				// sleep the Consumidor to work in different time
-				sleep(1500);
 
 			} catch (Exception e) {
 				// TODO: handle exception

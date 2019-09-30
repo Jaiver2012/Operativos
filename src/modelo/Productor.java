@@ -65,14 +65,16 @@ public class Productor extends Thread {
 				buffer.fill();
 				System.out.println("Liberación (PRODUCTOR)");
 				
+				// sleep the Consumidor to work in different time
+				sleep((long) ((Math.random())%1000));
+				
 				//releases the lock
 				mutex.release();
 				
 				//Releases a permit, increasing the number of available permits by one
 				full.release();
 
-				// sleep the Consumidor to work in different time
-				sleep(1000);
+				
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
